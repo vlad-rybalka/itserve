@@ -1,5 +1,5 @@
 <template>
-    <b-col cols="4">
+    <b-col cols="4" class="mb-3">
         <b-card
             title="Card Title"
             img-src="https://picsum.photos/600/300/?image=25"
