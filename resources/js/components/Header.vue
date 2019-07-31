@@ -2,7 +2,9 @@
     <div>
         <b-navbar toggleable="lg" type="dark" variant="dark">
             <b-container>
-                <b-navbar-brand href="#">IT Serve</b-navbar-brand>
+                <router-link :to="{name: 'home'}">
+                    <b-navbar-brand>IT Serve</b-navbar-brand>
+                </router-link>
 
                 <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
