@@ -10,6 +10,7 @@
     </head>
     <body>
         <div id="app"></div>
+        <script src="https://kit.fontawesome.com/53857e5cc8.js"></script>
         <script src="/js/app.js"></script>
     </body>
 </html>
