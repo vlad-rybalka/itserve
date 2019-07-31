@@ -3,7 +3,9 @@
         <b-row>
             <b-col>
                 <h3 class="float-left pt-2">Posts</h3>
-                <b-button variant="success" class="float-right">+ Add post</b-button>
+                <router-link :to="{name: 'posts-add'}">
+                    <b-button variant="success" class="float-right">+ Add post</b-button>
+                </router-link>
             </b-col>
         </b-row>
         <b-row class="mt-2">
