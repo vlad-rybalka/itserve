@@ -10,7 +10,7 @@ class PostController extends Controller
 
     public function index()
     {
-        return Post::all();
+        return Post::paginate(15);
     }
 
     public function store(Request $request)
