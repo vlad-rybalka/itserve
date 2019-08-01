@@ -21,7 +21,9 @@
                      <b-button variant="primary" class="px-5 float-right">Add post</b-button>
                 </b-col>
                 <b-col cols="4">
-                    <img src="/img/no-image.jpg" alt="" width="100%">
+                    <div class="img_wrap">
+                        <img src="/img/no-image.jpg" alt="" width="100%">
+                    </div>
                 </b-col>
             </b-row>
         </b-card>
@@ -29,26 +31,38 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        form: {
-          headline: '',
-          text: '',
-          file: null,
+    import PostsApi from '../services/api/posts'
+    export default {
+        data() {
+        return {
+            form: {
+                headline: '',
+                text: '',
+                file: null,
+            }
         }
-      }
-    },
-    methods: {
-      
-      
+        },
+        methods: {
+        
+        
+        }
     }
-  }
 </script>
 
 <style>
     textarea{
         min-height: 100px;
+    }
+    .img_wrap {
+        width: 336px;
+        height: 260px;
+        overflow: hidden;
+    }
+
+    .img_wrap img {
+        min-width: 336px;
+        min-height: 260px;
+        vertical-align: middle;
     }
 </style>
 
