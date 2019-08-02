@@ -3,7 +3,7 @@
         <b-row>
             <b-col>
                 <h3 class="float-left pt-2">Posts</h3>
-                <router-link :to="{name: 'posts-add'}">
+                <router-link :to="{name: 'post-add'}">
                     <b-button variant="success" class="float-right">+ Add post</b-button>
                 </router-link>
             </b-col>
@@ -27,6 +27,7 @@
             <b-col>
                 <b-card-group columns class="box">
                     <PostItem  v-for="post in posts" v-bind:key="post.id"
+                        :id="post.id"
                         :title="post.title"
                         :description="post.short_description"
                         :img="post.img"
