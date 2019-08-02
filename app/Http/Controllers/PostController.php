@@ -23,7 +23,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return Post::find($post);
+        return Post::find($post)->first();
     }
 
     public function update(Request $request, Post $post)
