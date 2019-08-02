@@ -10,7 +10,10 @@ class PostController extends Controller
 
     public function index()
     {
-        return Post::paginate(15);
+        $posts = Post::paginate(15);
+        $posts->makeHidden(['description','updated_at']);
+        return $posts;
+
     }
 
     public function store(Request $request)
