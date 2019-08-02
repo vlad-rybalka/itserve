@@ -1,4 +1,12 @@
 window._ = require('lodash');
+window.Vue = require('vue');
+
+import BootstrapVue from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+window.VueRouter = VueRouter
 
 try {
     window.Popper = require('popper.js').default;
@@ -19,6 +27,3 @@ if (token) {
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
-
-import VueRouter from 'vue-router'
-window.VueRouter = VueRouter
