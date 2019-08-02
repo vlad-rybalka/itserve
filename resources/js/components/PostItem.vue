@@ -28,10 +28,10 @@ export default {
     components: {
           Header
         },
-    props: ['title', 'description', 'img', 'date'],
+    props: ['title', 'description', 'img', 'date', 'id'],
     methods:{
         OnClick: function(){
-            console.log(123);
+            this.$router.push({name: 'post-show', params: { id: this.id}});
         }
     }
 }
