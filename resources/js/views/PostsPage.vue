@@ -59,7 +59,6 @@ import PostItem from '../components/PostItem'
 import PostsApi from '../services/api/posts'
 
 export default {
-    
     components: {
         PostItem
     },

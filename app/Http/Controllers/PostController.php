@@ -10,9 +10,16 @@ class PostController extends Controller
 
     public function index()
     {
+        $result = ['success'=>true];
+
         $posts = Post::paginate(15);
         $posts->makeHidden(['description','updated_at']);
-        return $posts;
+        
+        $result['data']['posts'] = $posts->items();
+        $result['data']['pagination']['total'] = $posts->total();
+        $result['data']['pagination']['perPage'] = $posts->perPage();
+
+        return response()->json($result, 200);
 
     }
 
