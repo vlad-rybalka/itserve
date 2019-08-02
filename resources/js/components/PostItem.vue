@@ -1,29 +1,25 @@
 <template>
-    <b-col cols="4" class="mb-3">
         <b-card
-            class="mb-2 post-item"
+            class="mb-3 post-item"
             v-on:click="OnClick"
+            :img-src="img" 
+            img-alt="Image" 
+            img-top
         >
             <b-row no-gutters>
                 <b-col md="12">
-                    <div class="img_wrap">
-                        <b-card-img :src="img" class="rounded-0"></b-card-img>
-                    </div>
-                </b-col>
-                <b-col md="12">
-                    <b-card-body :title="title" class="p-0 mt-3">
+                    <b-card-body :title="title" class="p-0">
                         <b-card-text>
                             {{description}}
                         </b-card-text>
                     </b-card-body>
                 </b-col>
             </b-row>
-            <div slot="footer">
-                <h6 class="text-muted mb-0 float-left"><i class="far fa-calendar-alt"></i> 25.01.2017</h6>
+            <div slot="footer" class="pb-3">
+                <h6 class="text-muted mb-0 float-left"><i class="far fa-calendar-alt"></i> {{date}}</h6>
                 <h6 class="text-muted mb-0 float-right"><i class="fas fa-comments"></i> 6</h6>
             </div>
         </b-card>
-    </b-col>
 </template>
 
 <script>
@@ -32,7 +28,7 @@ export default {
     components: {
           Header
         },
-    props: ['title', 'description', 'img'],
+    props: ['title', 'description', 'img', 'date'],
     methods:{
         OnClick: function(){
             console.log(123);
