@@ -55,13 +55,17 @@
 </template>
 
 <script>
-import PostItem from './PostItem'
+import PostItem from '../components/PostItem'
 import PostsApi from '../services/api/posts'
+
 export default {
     
     components: {
-          PostItem
-        },
+        PostItem
+    },
+    computed:{
+
+    },
     methods:{
         getPosts(){
             this.isReady = false;
