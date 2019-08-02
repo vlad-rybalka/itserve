@@ -25,14 +25,15 @@
         <b-row class="content-box" v-bind:class="{ ready: this.isReady }">
             <b-spinner class="spinner" variant="primary" label="Spinning"></b-spinner>
             <b-col>
-                <b-row class="box">
+                <b-card-group columns class="box">
                     <PostItem  v-for="post in posts" v-bind:key="post.id"
                         :title="post.title"
-                        :description="post.description"
+                        :description="post.short_description"
                         :img="post.img"
+                        :date="post.created_at"
                     >
                     </PostItem>
-                </b-row>
+                </b-card-group>
             </b-col>            
         </b-row>
         <b-row class="mt-2" v-if="posts.length">
@@ -65,7 +66,7 @@ export default {
             this.isReady = false;
             axios.get('/api/posts?page='+this.paginate.currentPage)
                 .then( response => {
-                    
+                    console.log(response);
                     this.posts = response.data.data;
                     this.paginate.perPage = response.data.per_page;
                     this.paginate.total = response.data.total;
