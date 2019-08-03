@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\JsonResponse;
 
 class PostRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class PostRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,10 @@ class PostRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|min:10|max:200',
+            'description' => 'required|min:250|max:2000',
+            'file' => 'required|image'
         ];
     }
+
 }
