@@ -8,17 +8,17 @@
                 </router-link>
             </b-col>
         </b-row>
-        <b-row class="mt-2" v-if="posts.length">
+        <b-row class="mt-2" v-if="allPosts.length">
             <b-col cols="6">
-                <h5 class="float-left mt-1 text-secondary">Posts from {{this.paginate.from}} to {{this.paginate.to}}</h5>
+                <h5 class="float-left mt-1 text-secondary">Posts from {{this.displayPosts.from}} to {{this.displayPosts.to}}</h5>
             </b-col>
             <b-col cols="6">
                 <b-pagination
-                    v-model="paginate.currentPage"
-                    :total-rows="paginate.total"
-                    :per-page="paginate.perPage"
+                    v-model="pagination.currentPage"
+                    :total-rows="total"
+                    :per-page="perPage"
                     align="right"
-                    @input="getPosts()"
+                    @input="getPosts(pagination.currentPage)"
                 ></b-pagination>
             </b-col>
         </b-row>
@@ -26,7 +26,7 @@
             <b-spinner class="spinner" variant="primary" label="Spinning"></b-spinner>
             <b-col>
                 <b-card-group columns class="box">
-                    <PostItem  v-for="post in posts" v-bind:key="post.id"
+                    <PostItem  v-for="post in allPosts" v-bind:key="post.id"
                         :id="post.id"
                         :title="post.title"
                         :description="post.short_description"
@@ -37,17 +37,17 @@
                 </b-card-group>
             </b-col>            
         </b-row>
-        <b-row class="mt-2" v-if="posts.length">
+        <b-row class="mt-2" v-if="allPosts.length">
             <b-col cols="6">
-                <h5 class="float-left mt-1 text-secondary">Posts from {{this.paginate.from}} to {{this.paginate.to}}</h5>
+                <h5 class="float-left mt-1 text-secondary">Posts from {{this.displayPosts.from}} to {{this.displayPosts.to}}</h5>
             </b-col>
             <b-col cols="6">
                 <b-pagination
-                    v-model="paginate.currentPage"
-                    :total-rows="paginate.total"
-                    :per-page="paginate.perPage"
+                    v-model="pagination.currentPage"
+                    :total-rows="total"
+                    :per-page="perPage"
                     align="right"
-                    @input="getPosts()"
+                    @input="getPosts(pagination.currentPage)"
                 ></b-pagination>
             </b-col>
         </b-row>
@@ -57,44 +57,34 @@
 <script>
 import PostItem from '../components/PostItem'
 import PostsApi from '../services/api/posts'
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
     components: {
         PostItem
     },
     computed:{
+        ...mapGetters(['allPosts', 'total', 'perPage', 'currentPage', 'isReady']),
+        displayPosts(){
+            const from = (this.currentPage * this.perPage) - (this.perPage - 1);
+            const to = from + (this.allPosts.length - 1);
+            return {from, to}
+        },
 
     },
     methods:{
-        getPosts(){
-            this.isReady = false;
-            axios.get('/api/posts?page='+this.paginate.currentPage)
-                .then( response => {
-                    console.log(response);
-                    this.posts = response.data.data;
-                    this.paginate.perPage = response.data.per_page;
-                    this.paginate.total = response.data.total;
-                    this.paginate.from = response.data.from;
-                    this.paginate.to = response.data.to;
-                    this.isReady = true;
-                });
-        }
+        ...mapActions(['getPosts']),
     },
     data() {
         return {
-            posts: [],
-            paginate:{
-                perPage: 1,
+            pagination:{
                 currentPage: 1,
-                total: 7,
-                from: 1,
-                to: 15
             },
-            isReady: false
         }
     },
     created(){
-        this.getPosts();
+        this.pagination.currentPage = this.currentPage;
+        this.getPosts(this.currentPage);
     }
 }
 </script>
