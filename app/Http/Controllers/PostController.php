@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
@@ -24,9 +25,22 @@ class PostController extends Controller
 
     }
 
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        return Post::create($request->all());
+        $result = ['success'=>true];
+
+        $path = "/"."storage/";
+        $path .= $request->file('file')->store('uploads','public');
+
+        $post = new Post;
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->img = $path;
+        $post->save();
+
+        $result['data'] = $post;
+        
+        return response()->json($result, 201);
     }
 
     public function show(Post $post)
