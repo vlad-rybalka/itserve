@@ -1,14 +1,14 @@
 <template>
+    <router-link :to="{name: 'post-show', params: { id: this.id}}">
         <b-card
             class="mb-3 post-item"
-            v-on:click="OnClick"
             :img-src="img" 
             img-alt="Image" 
             img-top
         >
             <b-row no-gutters>
                 <b-col md="12">
-                    <b-card-body :title="title" class="p-0">
+                    <b-card-body :title="title" class="p-0 text-dark">
                         <b-card-text>
                             {{description}}
                         </b-card-text>
@@ -20,6 +20,7 @@
                 <h6 class="text-muted mb-0 float-right"><i class="fas fa-comments"></i> 6</h6>
             </div>
         </b-card>
+    </router-link>
 </template>
 
 <script>
@@ -30,9 +31,7 @@ export default {
         },
     props: ['title', 'description', 'img', 'date', 'id'],
     methods:{
-        OnClick: function(){
-            this.$router.push({name: 'post-show', params: { id: this.id}});
-        }
+
     }
 }
 </script>
