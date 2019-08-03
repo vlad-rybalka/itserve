@@ -15,9 +15,10 @@ class PostController extends Controller
         $posts = Post::paginate(15);
         $posts->makeHidden(['description','updated_at']);
         
-        $result['data']['posts'] = $posts->items();
-        $result['data']['pagination']['total'] = $posts->total();
-        $result['data']['pagination']['perPage'] = $posts->perPage();
+        $result['posts'] = $posts->items();
+        $result['pagination']['currentPage'] = $posts->currentPage();
+        $result['pagination']['total'] = $posts->total();
+        $result['pagination']['perPage'] = $posts->perPage();
 
         return response()->json($result, 200);
 
