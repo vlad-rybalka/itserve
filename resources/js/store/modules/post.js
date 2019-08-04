@@ -35,6 +35,9 @@ const actions = {
                 ctx.commit('updatePosts', response.data.posts)
                 ctx.commit('updatePagination', response.data.pagination)
                 ctx.commit('setIsReady', true)
+            })
+            .catch(error =>{
+                ctx.commit('setIsReady', true)
             });
     }
 }
