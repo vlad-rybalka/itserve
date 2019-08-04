@@ -1,65 +1,50 @@
 <template>
     <div>
         <div>
-            <b-jumbotron :header="data.title" header-level="4" bg-variant="white" border-variant="grey" class="py-4 mt-3">
-                <h5><i class="far fa-calendar-alt"></i> {{data.created_at}}</h5>
-                <img class="mt-3" :src="data.img" alt="" width="100%">
-                <h4 class="mt-4">{{data.description}}</h4>
-            </b-jumbotron>
-            <b-card class="mb-3 mt-0">
-                <b-media>
-                    <b-img slot="aside" blank blank-color="#ccc" width="64" alt="placeholder"></b-img>
-
-                    <h5 class="mt-0">Media Title</h5>
-                    <p>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.
-                        Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc
-                        ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                    </p>
-                    <p>
-                        Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque
-                        penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-                    </p>
-
-                    <b-media>
-                        <b-img slot="aside" blank blank-color="#ccc" width="64" alt="placeholder"></b-img>
-
-                        <h5 class="mt-0">Nested Media</h5>
-                        <p class="mb-0">
-                        Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in
-                        faucibus.
-                        </p>
-                        <b-media>
-                            <b-img slot="aside" blank blank-color="#ccc" width="64" alt="placeholder"></b-img>
-
-                            <h5 class="mt-0">Nested Media</h5>
-                            <p class="mb-0">
-                            Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in
-                            faucibus.
-                            </p>
-                            <b-media>
-                                <b-img slot="aside" blank blank-color="#ccc" width="64" alt="placeholder"></b-img>
-
-                                <h5 class="mt-0">Nested Media</h5>
-                                <p class="mb-0">
-                                Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in
-                                faucibus.
-                                </p>
-                            </b-media>
-                        </b-media>
-                    </b-media>
-                </b-media>
-                <b-alert show variant="danger" class="mb-0 mt-3"><i class="fas fa-info-circle"></i> Comments can be added only by registered users. <a href="">Log in </a> </b-alert>
-            </b-card>
+            <b-row>
+                <b-col cols="9">
+                    <b-jumbotron :header="data.title" header-level="6" bg-variant="white" border-variant="grey" class="py-4 mt-3">
+                        <h5><i class="far fa-calendar-alt"></i> {{data.created_at}}</h5>
+                        <img class="mt-3" :src="data.img" alt="" width="100%">
+                        <h5 class="mt-4">{{data.description}}</h5>
+                    </b-jumbotron>
+                    <b-card class="mb-3 mt-0">
+                        <b-row>
+                            <b-col>
+                                <h5 class="mb-3 float-left">Comments</h5>
+                                <b-button variant="primary" :disabled="!isSortType" @click="onSortClick('DESC')" size="sm" class="sort mb-3 float-right"><i class="fas fa-sort-alpha-down-alt"></i></b-button>
+                                <b-button variant="primary" :disabled="isSortType"  @click="onSortClick('ASC')" size="sm" class="sort mb-3 mr-1 float-right"><i class="fas fa-sort-alpha-down"></i></b-button>
+                            </b-col>
+                        </b-row>
+                        <CommentItem v-for="comment in data.comments" :key="comment.id"
+                            :text="comment.text"
+                            :comments="comment.comments"
+                        >>
+                        </CommentItem>
+                        <b-alert show variant="danger" class="mb-0 mt-3"><i class="fas fa-info-circle"></i> Comments can be added only by registered users. <a href="">Log in </a> </b-alert>
+                    </b-card>
+                </b-col>
+            </b-row>
         </div>
     </div>
 </template>
 
 <script>
+import CommentItem from '../components/CommentItem'
+
 export default {
+    components: {
+        CommentItem
+    },
     data() {
         return {
-            data: {}
+            data: {},
+            sort: 'ASC'
+        }
+    },
+    computed:{
+        isSortType(){
+            return this.sort == 'ASC';
         }
     },
     methods:{
@@ -69,6 +54,9 @@ export default {
                     console.log(response);
                     this.data = response.data;
                 });
+        },
+        onSortClick(sort){
+            this.sort = sort;
         }
     },
     created(){
@@ -76,4 +64,12 @@ export default {
     }
 }
 </script>
+
+<style>
+.sort{
+    font-size: 20px;
+    padding: 0px 7px;
+}
+</style>
+
 
