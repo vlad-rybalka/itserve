@@ -32,6 +32,7 @@
                         :description="post.short_description"
                         :img="post.img"
                         :date="post.created_at"
+                        :comments="post.count_comments"
                     >
                     </PostItem>
                 </b-card-group>
