@@ -45,7 +45,8 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return Post::find($post)->first();
+        
+        return Post::with('comments')->whereIn('id', $post)->get()->first();
     }
 
     public function update(Request $request, Post $post)
