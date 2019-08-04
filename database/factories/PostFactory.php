@@ -33,7 +33,7 @@ $factory->define(Post::class, function (Faker $faker) {
     ];
     return [
         'title' => $faker->name,
-        'description' => $faker->text,
+        'description' => $faker->realText(1500),
         'img' => $images[random_int(0, count($images)-1)],
     ];
 });
