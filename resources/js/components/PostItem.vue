@@ -17,7 +17,7 @@
             </b-row>
             <div slot="footer" class="pb-3">
                 <h6 class="text-muted mb-0 float-left"><i class="far fa-calendar-alt"></i> {{date}}</h6>
-                <h6 class="text-muted mb-0 float-right"><i class="fas fa-comments"></i> 6</h6>
+                <h6 class="text-muted mb-0 float-right"><i class="fas fa-comments"></i> {{comments}}</h6>
             </div>
         </b-card>
     </router-link>
@@ -29,7 +29,7 @@ export default {
     components: {
           Header
         },
-    props: ['title', 'description', 'img', 'date', 'id'],
+    props: ['title', 'description', 'img', 'date', 'id', 'comments'],
     methods:{
 
     }
