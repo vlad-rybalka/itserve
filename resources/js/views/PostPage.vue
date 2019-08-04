@@ -12,16 +12,25 @@
                         <b-row>
                             <b-col>
                                 <h5 class="mb-3 float-left">Comments</h5>
-                                <b-button variant="primary" :disabled="!isSortType" @click="onSortClick('DESC')" size="sm" class="sort mb-3 float-right"><i class="fas fa-sort-alpha-down-alt"></i></b-button>
-                                <b-button variant="primary" :disabled="isSortType"  @click="onSortClick('ASC')" size="sm" class="sort mb-3 mr-1 float-right"><i class="fas fa-sort-alpha-down"></i></b-button>
+                                <b-button variant="primary" :disabled="!isASC" @click="onSortClick('DESC')" size="sm" class="sort mb-3 float-right"><i class="fas fa-sort-alpha-down-alt"></i></b-button>
+                                <b-button variant="primary" :disabled="isASC"  @click="onSortClick('ASC')" size="sm" class="sort mb-3 mr-1 float-right"><i class="fas fa-sort-alpha-down"></i></b-button>
                             </b-col>
                         </b-row>
                         <CommentItem v-for="comment in data.comments" :key="comment.id"
                             :text="comment.text"
                             :comments="comment.comments"
+                            :id="comment.id"
                         >>
                         </CommentItem>
-                        <b-alert show variant="danger" class="mb-0 mt-3"><i class="fas fa-info-circle"></i> Comments can be added only by registered users. <a href="">Log in </a> </b-alert>
+                        <b-form-textarea
+                            id="textarea"
+                            v-if="true"
+                            placeholder="Enter something..."
+                            rows="2"
+                            class="mt-3 "
+                        ></b-form-textarea>
+                        <b-button variant="primary" v-if="true" class="mb-1 mt-2 px-5">Send</b-button>
+                        <b-alert v-if="false" show variant="danger" class="mb-0 mt-3"><i class="fas fa-info-circle"></i> Comments can be added only by registered users. <a href="">Log in </a> </b-alert>
                     </b-card>
                 </b-col>
             </b-row>
@@ -43,7 +52,7 @@ export default {
         }
     },
     computed:{
-        isSortType(){
+        isASC(){
             return this.sort == 'ASC';
         }
     },
