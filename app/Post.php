@@ -11,12 +11,23 @@ class Post extends Model
     ];
 
     protected $appends = [
-        'short_description'
+        'short_description', 'count_comments'
     ];
+
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment')->where('parent_id', 0)->with('comments');
+    }
 
     public function getShortDescriptionAttribute()
     {
         return mb_substr($this->description, 0, 250);
+    }
+    public function getCountCommentsAttribute()
+    {
+       return $this->hasMany('App\Comment')->count();
+   
     }
 
 
