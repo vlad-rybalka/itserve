@@ -40,7 +40,7 @@
 
 <script>
     import PostsApi from '../services/api/posts'
-    import {mapGetters, mapActions} from 'vuex'
+    import {mapGetters, mapActions, mapMutations} from 'vuex'
 
     export default {
         data() {
@@ -59,10 +59,11 @@
             }
         },
         computed:{
-             ...mapGetters(['errors']),
+             ...mapGetters('createPost',['errors']),
         },
         methods: {
-            ...mapActions(['createPost']),
+            ...mapActions('createPost',['createPost']),
+            ...mapMutations('createPost',['updateErrors']),
             onFileChange(event){
                 var input = event.target;
 
@@ -84,9 +85,15 @@
                     this.displayErrors[key]  = !this.errors.hasOwnProperty(key);
                 }
             },
+            showMessage(data){
+                this.$emit('message', data);
+            },
             async onSubmit(){
-                this.createPost(this.formData).then(() => {
-                    alert("Post created!")
+                this.createPost(this.formData).then((response) => {
+                    this.showMessage({
+                        title: "Created successful",
+                        body: "Post: " + response.data.title +" created!"
+                    })
                     this.$router.push({ name: "posts"})
 
                 }).catch(error => {
@@ -97,7 +104,7 @@
         
         },
         mounted(){
-            this.$store.commit('updateErrors', {})
+            this.updateErrors({});
         }
     }
 </script>
