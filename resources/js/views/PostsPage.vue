@@ -3,7 +3,7 @@
         <b-row>
             <b-col>
                 <h3 class="float-left pt-2">Posts</h3>
-                <router-link :to="{name: 'post-add'}">
+                <router-link v-if="isAuth" :to="{name: 'post-add'}">
                     <b-button variant="success" class="float-right">+ Add post</b-button>
                 </router-link>
             </b-col>
@@ -65,7 +65,8 @@ export default {
         PostItem
     },
     computed:{
-        ...mapGetters(['allPosts', 'total', 'perPage', 'currentPage', 'isReady']),
+        ...mapGetters('post',['allPosts', 'total', 'perPage', 'currentPage', 'isReady']),
+        ...mapGetters('auth',['isAuth']),
         displayPosts(){
             const from = (this.currentPage * this.perPage) - (this.perPage - 1);
             const to = from + (this.allPosts.length - 1);
@@ -74,7 +75,7 @@ export default {
 
     },
     methods:{
-        ...mapActions(['getPosts']),
+        ...mapActions('post',['getPosts']),
     },
     data() {
         return {

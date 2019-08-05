@@ -13,29 +13,42 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        $result = ['success'=>false];
+        
+        $user = User::where('email', $request->email)->first();
+        if(!$user){
+            $result['errors']['email'] = "User with this email not found";
+            return response()->json($result, 400);
+        }
         $credentials = $request->only('email', 'password');
         try {
             if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 400);
+                $result['errors']['password'] = "Wrong password";
+                return response()->json($result, 400);
             }
         } catch (JWTException $e) {
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
         $user = $request->user();
+        $result['success'] = true;
+        $result['user'] = $user;
+        $result['token'] = $token;
 
-        return response()->json(compact('user','token'));
+        return response()->json($result, 200);
     }
 
     public function register(Request $request)
     {
-            $validator = Validator::make($request->all(), [
+        $result = ['success'=>false];
+        $validator = Validator::make($request->all(), [
             'nickname' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
         if($validator->fails()){
-                return response()->json(['errors' => $validator->errors()], 400);
+                $result['errors'] = $validator->errors();
+                return response()->json($result, 422);
         }
 
         $user = User::create([
@@ -45,7 +58,11 @@ class AuthController extends Controller
         ]);
 
         $token = JWTAuth::fromUser($user);
+        
+        $result['success'] = true;
+        $result['user'] = $user;
+        $result['token'] = $token;
 
-        return response()->json(compact('user','token'),201);
+        return response()->json($result, 201);
     }
 }

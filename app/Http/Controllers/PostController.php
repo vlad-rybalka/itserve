@@ -43,10 +43,17 @@ class PostController extends Controller
         return response()->json($result, 201);
     }
 
-    public function show(Post $post)
+    public function show(Request $request, $id)
     {
-        
-        return Post::with('comments')->whereIn('id', $post)->get()->first();
+        $result = ['success'=>true];
+
+        $sort = $request->sort ? $request->sort : 'DESC';
+
+        $post = Post::find($id);
+        $result['post'] = $post;
+        $result['post']['comments'] =  $post->comments() ? $post->comments()->orderBy('created_at', $sort)->get() : [];
+
+        return response()->json($result, 200);
     }
 
     public function update(Request $request, Post $post)

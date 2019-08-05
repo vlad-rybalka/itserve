@@ -17,7 +17,7 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->hasMany('App\Comment')->where('parent_id', 0)->with('comments');
+        return $this->hasMany('App\Comment')->where('parent_id', 0)->with('comments','user');
     }
 
     public function getShortDescriptionAttribute()
