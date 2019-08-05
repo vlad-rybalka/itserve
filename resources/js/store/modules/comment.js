@@ -9,7 +9,20 @@ const getters = {
 }
 
 const actions = {
-    
+    async sendComment(ctx, data){
+        return new Promise((resolve, reject) => {
+            const headers = {
+                'Authorization': 'Bearer '+ctx.rootState.auth.token,
+            }
+            axios.post('/api/comments', data, {headers})
+            .then(response =>{
+                resolve(response.data)
+            })
+            .catch(error =>{
+                reject(error.response.data)
+            })
+        })
+    }
 }
 
 const mutations = {
@@ -20,8 +33,9 @@ const mutations = {
 }
 
 export default {
-  state,
-  getters,
-  actions,
-  mutations
+    namespaced: true,
+    state,
+    getters,
+    actions,
+    mutations
 }
