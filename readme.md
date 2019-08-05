@@ -13,3 +13,4 @@ Install:
 6. php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
 7. php artisan jwt:secret
 8. php artisan migrate --seed
+9. php artisan storage:link
