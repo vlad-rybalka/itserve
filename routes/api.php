@@ -17,11 +17,16 @@ Route::middleware('jwt.verify')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['middleware' => ['jwt.verify']], function () {
+    Route::post('posts', 'PostController@store');
+    Route::put('posts/{post}', 'PostController@update');
+    Route::delete('posts/{post}', 'PostController@delete');
+
+    Route::post('comments', 'CommentController@store');
+});
+
 Route::get('posts', 'PostController@index');
-Route::get('posts/{post}', 'PostController@show');
-Route::post('posts', 'PostController@store');
-Route::put('posts/{post}', 'PostController@update');
-Route::delete('posts/{post}', 'PostController@delete');
+Route::get('posts/{id}', 'PostController@show');
 
 Route::post('/register', 'AuthController@register');
 Route::post('/login', 'AuthController@login');
