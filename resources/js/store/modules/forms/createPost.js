@@ -31,7 +31,7 @@ const actions = {
             .catch(error =>{
                 console.log(error.response.data)
                 ctx.commit('updateErrors', error.response.data.errors)
-                reject()
+                reject(error.response.data)
             })
         })
     },

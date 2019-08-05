@@ -63,6 +63,7 @@
         },
         methods: {
             ...mapActions('createPost',['createPost']),
+            ...mapActions('auth',['logout']),
             ...mapMutations('createPost',['updateErrors']),
             onFileChange(event){
                 var input = event.target;
@@ -97,6 +98,13 @@
                     this.$router.push({ name: "posts"})
 
                 }).catch(error => {
+                    if(error.status == 'Token is Invalid') {
+                        this.showMessage({
+                            title: "Authorization timed out",
+                            body: "Please sign in again"
+                        })
+                        this.logout()
+                    }
                     this.showErrors()
                 })
                 

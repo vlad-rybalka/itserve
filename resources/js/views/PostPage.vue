@@ -73,6 +73,7 @@ export default {
     methods:{
         ...mapActions('post',['getPost']),
         ...mapActions('comment',['sendComment']),
+        ...mapActions('auth',['logout']),
         loadPost(){
             this.getPost({id:this.$route.params.id, sort: this.sort});
         },
@@ -90,6 +91,13 @@ export default {
                     this.post.comments.push(data.comment)
                 })
                 .catch(error => {
+                    if(error.status== 'Token is Invalid') {
+                        this.showMessage({
+                            title: "Authorization timed out",
+                            body: "Please sign in again"
+                        })
+                        this.logout()
+                    }
                     this.error = error.errors.text[0]
                     console.log(error)
                 })
@@ -97,6 +105,9 @@ export default {
         onSortClick(sort){
             this.sort = sort
             this.loadPost()
+        },
+        showMessage(data){
+            this.$emit('message', data);
         }
     },
     mounted(){

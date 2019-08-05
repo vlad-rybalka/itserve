@@ -2083,7 +2083,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])('createPost', ['errors'])),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])('createPost', ['createPost']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapMutations"])('createPost', ['updateErrors']), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])('createPost', ['createPost']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])('auth', ['logout']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapMutations"])('createPost', ['updateErrors']), {
     onFileChange: function onFileChange(event) {
       var input = event.target;
 
@@ -2130,6 +2130,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     name: "posts"
                   });
                 })["catch"](function (error) {
+                  if (error.status == 'Token is Invalid') {
+                    _this.showMessage({
+                      title: "Authorization timed out",
+                      body: "Please sign in again"
+                    });
+
+                    _this.logout();
+                  }
+
                   _this.showErrors();
                 });
 
@@ -2345,7 +2354,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.sort == 'DESC';
     }
   }),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])('post', ['getPost']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])('comment', ['sendComment']), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])('post', ['getPost']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])('comment', ['sendComment']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])('auth', ['logout']), {
     loadPost: function loadPost() {
       this.getPost({
         id: this.$route.params.id,
@@ -2367,6 +2376,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this.post.comments.push(data.comment);
       })["catch"](function (error) {
+        if (error.status == 'Token is Invalid') {
+          _this.showMessage({
+            title: "Authorization timed out",
+            body: "Please sign in again"
+          });
+
+          _this.logout();
+        }
+
         _this.error = error.errors.text[0];
         console.log(error);
       });
@@ -2374,6 +2392,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     onSortClick: function onSortClick(sort) {
       this.sort = sort;
       this.loadPost();
+    },
+    showMessage: function showMessage(data) {
+      this.$emit('message', data);
     }
   }),
   mounted: function mounted() {
@@ -85230,7 +85251,7 @@ var actions = {
                 })["catch"](function (error) {
                   console.log(error.response.data);
                   ctx.commit('updateErrors', error.response.data.errors);
-                  reject();
+                  reject(error.response.data);
                 });
               }));
 
